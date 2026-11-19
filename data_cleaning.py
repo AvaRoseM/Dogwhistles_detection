@@ -80,7 +80,16 @@ print(f" There's {len(removed_comments)} removed comments in the comments datase
 
 #the comments variable is now without any deleted comments
 comments = comments[comments["body"] != "[deleted]"]
-#print(len(comments))
+
+#we verify if we have duplicates in the posts and comments
+
+posts = posts.drop(columns=["comments"])
+all_dups_p = posts[posts.duplicated(keep=False)] #keep False to mark all of the occurences of a duplicate
+print('Rows involved in duplicates in posts:', len(all_dups_p))
+
+all_dups_c = comments[comments.duplicated(keep=False)] 
+print('Rows involved in duplicates in comments:', len(all_dups_c))
+
 
 #regular expression to delete all the links and replace them by URL REMOVED 
 comments['body'] = comments['body'].apply(lambda x: re.sub(r'(?:https?://|www\.)[^\s<>"\']+', "[URL REMOVED]", x))
@@ -89,7 +98,6 @@ posts['selftext'] = posts['selftext'].apply(lambda x: re.sub(r'(?:https?://|www\
 
 #comments whitout the ones containing urls 
 comments = comments[comments["body"] !="[URL REMOVED]"]
-posts = posts[posts["selftext"] !="[URL REMOVED]"]
 
 comments = comments.reset_index(drop=True)
 
