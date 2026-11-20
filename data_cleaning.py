@@ -80,15 +80,17 @@ print(f" There's {len(removed_comments)} removed comments in the comments datase
 
 #the comments variable is now without any deleted comments
 comments = comments[comments["body"] != "[deleted]"]
+comments = comments[comments["body"] != "[removed]"]
+
 
 #we verify if we have duplicates in the posts and comments
 
 posts = posts.drop(columns=["comments"])
 all_dups_p = posts[posts.duplicated(keep=False)] #keep False to mark all of the occurences of a duplicate
-print('Rows involved in duplicates in posts:', len(all_dups_p))
+#print('Rows involved in duplicates in posts:', len(all_dups_p))
 
 all_dups_c = comments[comments.duplicated(keep=False)] 
-print('Rows involved in duplicates in comments:', len(all_dups_c))
+#print('Rows involved in duplicates in comments:', len(all_dups_c))
 
 
 #regular expression to delete all the links and replace them by URL REMOVED 
@@ -98,6 +100,9 @@ posts['selftext'] = posts['selftext'].apply(lambda x: re.sub(r'(?:https?://|www\
 
 #comments whitout the ones containing urls 
 comments = comments[comments["body"] !="[URL REMOVED]"]
+# -> pour ça, je suis pas sûre que ça soit pertinent, je me demande si ça delete seulement les comments dont le body ENTIER est "url removed" 
+# ( ce qui est le but), ou bien si ça supp aussi ceux qui ont un url removed dans le commentaire (ce qu'on veut pas) -> Ask Yoan or Rachel
+
 
 comments = comments.reset_index(drop=True)
 
