@@ -71,12 +71,17 @@ CLEANING THE DATAFRAMES
 #checks for deleted comments 
 deleted_comments = comments[comments["body"] == "[deleted]"]
 #print(deleted_comments.head())
-print(f"There's {len(deleted_comments)} deleted comments in the comments dataset.")
+#print(f"There's {len(deleted_comments)} deleted comments in the comments dataset.")
 #print(len(comments))
+
+
+bot_text = "I am a bot, and this action was performed automatically. Please contact the moderators of this subreddit if you have any questions or concerns."
+
+
 
 removed_comments = comments[comments["body"] == "[removed]"]
 #print(removed_comments.head())
-print(f" There's {len(removed_comments)} removed comments in the comments dataset.")
+#print(f" There's {len(removed_comments)} removed comments in the comments dataset.")
 
 #the comments variable is now without any deleted comments
 comments = comments[comments["body"] != "[deleted]"]
@@ -94,7 +99,7 @@ all_dups_c = comments[comments.duplicated(keep=False)]
 
 
 #regular expression to delete all the links and replace them by URL REMOVED 
-comments['body'] = comments['body'].apply(   x: re.sub(r'(?:https?:\/\/|www\.)[^\s<>"\']+', "[URL_REMOVED]", x))
+comments['body'] = comments['body'].apply(lambda x: re.sub(r'(?:https?:\/\/|www\.)[^\s<>"\']+', "[URL_REMOVED]", x))
 posts['selftext'] = posts['selftext'].apply(lambda x: re.sub(r'(?:https?:\/\/|www\.)[^\s<>"\']+', "[URL_REMOVED]", x))
 
 
