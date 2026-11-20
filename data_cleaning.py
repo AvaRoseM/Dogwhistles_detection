@@ -94,14 +94,12 @@ all_dups_c = comments[comments.duplicated(keep=False)]
 
 
 #regular expression to delete all the links and replace them by URL REMOVED 
-comments['body'] = comments['body'].apply(lambda x: re.sub(r'(?:https?://|www\.)[^\s<>"\']+', "[URL REMOVED]", x))
-posts['selftext'] = posts['selftext'].apply(lambda x: re.sub(r'(?:https?://|www\.)[^\s<>"\']+', "[URL REMOVED]", x))
+comments['body'] = comments['body'].apply(   x: re.sub(r'(?:https?:\//|www\.)[^\s<>"\']+', "[URL_REMOVED]", x))
+posts['selftext'] = posts['selftext'].apply(lambda x: re.sub(r'(?:https?:\//|www\.)[^\s<>"\']+', "[URL_REMOVED]", x))
 
 
-#comments whitout the ones containing urls 
-comments = comments[comments["body"] !="[URL REMOVED]"]
-# -> pour ça, je suis pas sûre que ça soit pertinent, je me demande si ça delete seulement les comments dont le body ENTIER est "url removed" 
-# ( ce qui est le but), ou bien si ça supp aussi ceux qui ont un url removed dans le commentaire (ce qu'on veut pas) -> Ask Yoan or Rachel
+#comments whitout the ones containing only urls 
+comments = comments[comments["body"] !="[URL_REMOVED]"]
 
 
 comments = comments.reset_index(drop=True)
