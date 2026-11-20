@@ -113,7 +113,7 @@ comments.sample(10)
 
 
 """
-CREATING CSV FILE
+CREATING FILES
 
 """
 
@@ -121,3 +121,5 @@ CREATING CSV FILE
 text = pd.concat([posts["title"], posts["selftext"], comments["body"]], ignore_index=True) # creates a DataFrame that only contains the text bearing columns
 
 text.to_csv("data.csv", index=False, header=["text"], encoding="utf-8") # turns the text DataFrame into a csv file
+text.to_json("data.json", orient="records", force_ascii=False, indent=2) # turns the text DataFrame into a json file
+
