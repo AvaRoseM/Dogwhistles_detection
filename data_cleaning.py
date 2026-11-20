@@ -94,8 +94,8 @@ all_dups_c = comments[comments.duplicated(keep=False)]
 
 
 #regular expression to delete all the links and replace them by URL REMOVED 
-comments['body'] = comments['body'].apply(   x: re.sub(r'(?:https?:\//|www\.)[^\s<>"\']+', "[URL_REMOVED]", x))
-posts['selftext'] = posts['selftext'].apply(lambda x: re.sub(r'(?:https?:\//|www\.)[^\s<>"\']+', "[URL_REMOVED]", x))
+comments['body'] = comments['body'].apply(   x: re.sub(r'(?:https?:\/\/|www\.)[^\s<>"\']+', "[URL_REMOVED]", x))
+posts['selftext'] = posts['selftext'].apply(lambda x: re.sub(r'(?:https?:\/\/|www\.)[^\s<>"\']+', "[URL_REMOVED]", x))
 
 
 #comments whitout the ones containing only urls 
