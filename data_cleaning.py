@@ -67,20 +67,22 @@ comments['created_utc'] = pd.to_datetime(comments['created_utc'], unit='s')
 CLEANING THE DATAFRAMES
 """
 
+#bot_text = "I am a bot, and this action was performed automatically. Please contact the moderators of this subreddit if you have any questions or concerns."
+mask_bot = comments['body'].str.contains("I am a bot", case=False, na=False, regex=False) #case=False ignores upper/lower case
+mask_auto = comments['body'].str.contains("action was performed automatically", case=False, na=False, regex=False)
+combined_mask = mask_bot & mask_auto
+
+comments = comments[~combined_mask].reset_index(drop=True) #~ inverts 
+
 
 #checks for deleted comments 
+
 deleted_comments = comments[comments["body"] == "[deleted]"]
-#print(deleted_comments.head())
 #print(f"There's {len(deleted_comments)} deleted comments in the comments dataset.")
-#print(len(comments))
 
-
-bot_text = "I am a bot, and this action was performed automatically. Please contact the moderators of this subreddit if you have any questions or concerns."
-
-
+#Removing deleted or removed comments 
 
 removed_comments = comments[comments["body"] == "[removed]"]
-#print(removed_comments.head())
 #print(f" There's {len(removed_comments)} removed comments in the comments dataset.")
 
 #the comments variable is now without any deleted comments
@@ -110,6 +112,8 @@ comments = comments[comments["body"] !="[URL_REMOVED]"]
 comments = comments.reset_index(drop=True)
 
 comments.sample(10)
+
+
 
 
 """
